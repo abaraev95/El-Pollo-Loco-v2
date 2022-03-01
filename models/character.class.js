@@ -111,6 +111,7 @@ class Character extends MovableObject {
         if(!this.isHurt){
             this.isHurt = true;
             this.health -= 10;
+            this.world.healthbar.setHealth();
             console.log('lost Health:' + this.health);
             setTimeout(() => {
                 this.isHurt = false;
@@ -119,9 +120,10 @@ class Character extends MovableObject {
     }
 
     throw() {
-        if(!this.bottleThrown) {
+        if(!this.bottleThrown && this.world.bottleCounter.counter > 0) {
             this.bottleThrown = true;
             this.world.throwableObjects.push(new ThrowableObject(this.x + 100, this.y + 100, this.world));
+            this.world.bottleCounter.counter--;
             setTimeout(() => {
                 this.bottleThrown = false;
             }, 500);

@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
     <script src="./models/drawableObject.class.js"></script>
     <script src="./models/movableObject.class.js"></script>
     <script src="./models/throwableObject.class.js"></script>
+    <script src="./models/healthbar.class.js"></script>
+    <script src="./models/bottlecounter.class.js"></script>
+    <script src="./models/coincounter.class.js"></script>
     <script src="./models/backgroundObject.class.js"></script>
+    <script src="./models/collectableObject.class.js"></script>
     <script src="./models/clouds.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/chicken.class.js"></script>
@@ -19,15 +28,17 @@
     <script src="./levels/level1.js"></script>
 
     <script src="./models/world.class.js"></script>
-    
+
     <script src="./js/game.js"></script>
 
 
 
 </head>
+
 <body onload="init()">
 
     <canvas id="canvas" width="960" height="540"></canvas>
-    
+
 </body>
+
 </html>

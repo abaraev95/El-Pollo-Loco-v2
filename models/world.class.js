@@ -2,6 +2,9 @@ class World {
 
     character = new Character(this);
     keyboard = new Keyboard(this);
+    healthbar = new Healthbar(this);
+    bottleCounter = new Bottlecounter(this);
+    coinCounter = new Coincounter(this);
     level;
     canvas;
     ctx;
@@ -21,6 +24,14 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.drawArray(this.level.backgroundObjects);
+        this.drawArray(this.level.bottles);
+        this.drawArray(this.level.coins);
+        this.ctx.translate(-this.camera_x, 0);
+        this.healthbar.drawObject(this.ctx);
+        this.bottleCounter.drawObject(this.ctx);
+        this.drawNumber();
+        this.coinCounter.drawObject(this.ctx);
+        this.ctx.translate(this.camera_x, 0);
         this.drawArray(this.level.chicken);
         this.drawArray(this.throwableObjects);
         this.drawCharacter();
@@ -48,9 +59,21 @@ class World {
         }
     }
 
+    drawNumber() {
+        this.ctx.font = '25px Rye';
+        this.ctx.fillText('x ' + this.bottleCounter.counter, 80, 105);
+        this.ctx.fillText('x ' + this.coinCounter.counter, 80, 155);
+    }
+
     setWorld(){
         this.level.chicken.forEach((chicken) => {
             chicken.world = this;
+        })
+        this.level.bottles.forEach((bottle) => {
+            bottle.world = this;
+        })
+        this.level.coins.forEach((coin) => {
+            coin.world = this;
         })
     }
 

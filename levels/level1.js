@@ -19,14 +19,14 @@ const level1 = new Level(
         new BackgroundObject('img/Background-Objects/Desert-1/2.png', 960),
         new Clouds('img/Background-Objects/Clouds/1.png', 0),
         new Clouds('img/Background-Objects/Clouds/2.png', 960),
-    ]/*,
-    [
-        new Coins()
     ],
     [
-        new Bottles()
+        new CollectableObject('img/Collectable-Objects/Bottle/Bottle-stuck-1.png', 300, 400),
+        new CollectableObject('img/Collectable-Objects/Bottle/Bottle-stuck-2.png', 500, 400),
+        new CollectableObject('img/Collectable-Objects/Bottle/Bottle-stuck-1.png', 700, 400)
     ],
     [
-        new Health()
-    ]*/
+        new CollectableObject('img/Collectable-Objects/Coin.png', 500, 350),
+        new CollectableObject('img/Collectable-Objects/Coin.png', 700, 250)
+    ]
 );

@@ -50,9 +50,12 @@ class MovableObject extends DrawableObject {
         this.y < object.y + object.height;
     }
 
+    
     checkCollisions() {
         setInterval(() => {
             this.collisionWithChicken();
+            this.collectBottles();
+            this.collectCoins();
         }, 100);
     }
 
@@ -69,5 +72,22 @@ class MovableObject extends DrawableObject {
             }
         })
     }
+    
+    collectBottles() {
+        this.world.level.bottles.forEach((bottle) => {
+            if(this.isColliding(bottle) && this instanceof Character) {
+                this.world.bottleCounter.counter++;
+                bottle.removeBottle();
+            }
+        })
+    }
 
+    collectCoins() {
+        this.world.level.coins.forEach((coin) => {
+            if(this.isColliding(coin) && this instanceof Character) {
+                this.world.coinCounter.counter++;
+                coin.removeCoin();                
+            }
+        })
+    }
 }

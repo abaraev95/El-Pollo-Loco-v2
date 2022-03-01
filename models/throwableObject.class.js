@@ -63,6 +63,7 @@ class ThrowableObject extends MovableObject {
         if (!this.objectHit) {
             this.bottleThrown = false;
             this.objectHit = true;
+            console.log('Chicken dead');
             setTimeout(() => {
                 this.objectHit = false;
             }, 500);

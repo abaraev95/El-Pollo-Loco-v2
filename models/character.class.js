@@ -29,6 +29,11 @@ class Character extends MovableObject {
 
     IMAGES_HURTING = ['img/Pepe/hurt/H-41.png', 'img/Pepe/hurt/H-42.png', 'img/Pepe/hurt/H-43.png']
 
+    IMAGES_DEAD = [
+        'img/Pepe/dead/D-51.png', 'img/Pepe/dead/D-52.png', 'img/Pepe/dead/D-53.png', 'img/Pepe/dead/D-54.png', 
+        'img/Pepe/dead/D-55.png', 'img/Pepe/dead/D-56.png', 'img/Pepe/dead/D-57.png',
+    ]
+
     constructor(world) {
         super();
         this.world = world;
@@ -37,6 +42,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_HURTING);
+        this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.characterControl();
         this.characterAnimation();
@@ -81,7 +87,8 @@ class Character extends MovableObject {
 
     characterAnimation() {
         setInterval(() => {
-            if (this.isHurt) { this.playAnimation(this.IMAGES_HURTING) }
+            if (this.isDead) { this.playAnimation(this.IMAGES_DEAD) }
+            else if (this.isHurt) { this.playAnimation(this.IMAGES_HURTING) }
             else if (this.mustIdle) { this.playAnimation(this.IMAGES_IDLE) }
             else if (this.mustWalk) { this.playAnimation(this.IMAGES_WALKING) }
             else if (this.mustJump) { this.playAnimation(this.IMAGES_JUMPING) }
@@ -116,9 +123,13 @@ class Character extends MovableObject {
             this.health -= 10;
             this.world.healthbar.setHealth();
             console.log('lost Health:' + this.health);
-            setTimeout(() => {
-                this.isHurt = false;
-            }, 1500);
+            if (this.health == 0) {
+                this.isDead = true;
+            } else {
+                setTimeout(() => {
+                    this.isHurt = false;
+                }, 1500);
+            }
         }
     }
 

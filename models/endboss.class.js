@@ -28,9 +28,11 @@ class Endboss extends MovableObject {
         'img/Boss/dead/G26.png',
     ]
 
-    constructor(x) {
+    constructor(x, world) {
         super();
         this.x = x;
+        this.world = world;
+        this.loadImage('img/Boss/walk/G1.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_HURT);
@@ -46,6 +48,7 @@ class Endboss extends MovableObject {
             if (this.isDead) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.gotKilled();
+                this.removeBoss();
             }
             else if (this.isHurt) { this.playAnimation(this.IMAGES_HURT) }
             else if (this.mustWalk) { this.playAnimation(this.IMAGES_WALKING) }
@@ -75,10 +78,15 @@ class Endboss extends MovableObject {
                 if (this.x > this.world.bossFight_x + 500) {
                     this.moveObjects(1);
                 } else {
+                    let index = this.world.level.boss.indexOf(this);
                     this.mustWalk = false;
                     this.currentImage = 0;
                     this.mustAttack = true;
-                    this.world.bossFight_x = 2500;
+                    if (index == 0) {
+                        this.world.bossFight_x = 2700;
+                    } else if (index == 1) {
+                        this.world.bossFight_x = 3400;
+                    }
                     this.world.bossHealthbar.push(new BossHealthbar(this.world));
                     clearInterval(this.positioningTimer);
                 }
@@ -116,12 +124,20 @@ class Endboss extends MovableObject {
 
     gotKilled() {
         setTimeout(() => {
-            clearInterval(this.bossAnimationTimer);
-            setInterval(() => {
-                this.speedY = 6;
-                this.applyGravity();
-            }, 1000 / 60);
-
+            this.speedY = 6;
+            this.applyGravity();
         }, 1000);
+    }
+
+    removeBoss() {
+        clearInterval(this.bossAnimationTimer);
+        setTimeout(() => {
+            this.world.bossHealthbar.splice(0, 1);
+            let index = this.world.level.boss.indexOf(this);
+            if (index == 0) {
+                this.world.level.boss.push(new Endboss(3500, this.world));
+            }
+        }, 2000)
+
     }
 }

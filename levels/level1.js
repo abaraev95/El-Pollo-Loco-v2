@@ -14,7 +14,7 @@ const level1 = new Level(
         new Chicken(2500)
     ],
     [
-        new Endboss(2200)
+        new Endboss(2200),
     ],
     [
         new BackgroundObject('img/Background-Objects/Sky/sky.png', 0),

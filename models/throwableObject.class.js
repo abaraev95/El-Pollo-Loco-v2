@@ -9,6 +9,7 @@ class ThrowableObject extends MovableObject {
     bottleThrown = true;
     objectHit = false;
     stopSplash = false;
+    objectHit = false;
 
     IMAGES_BOTTLE = [
         'img/Collectable-Objects/Bottle/throw/throw-animation-1.png', 'img/Collectable-Objects/Bottle/throw/throw-animation-2.png',
@@ -32,7 +33,6 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
         this.flyingBottle();
         this.bottleAnimation();
-        this.checkCollisions();
     }
 
     flyingBottle() {
@@ -47,27 +47,20 @@ class ThrowableObject extends MovableObject {
 
     bottleAnimation() {
         setInterval(() => {
-            if (this.bottleThrown && this.isAboveGround()) { this.playAnimation(this.IMAGES_BOTTLE) }
+            if (this.bottleThrown && this.isAboveGround() && !this.objectHit) { this.playAnimation(this.IMAGES_BOTTLE) }
             else if (this.objectHit || !this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_SPLASH);
                 this.stopSplash = true;
+                clearInterval(this.gravityTimer);
             }
         }, 150);
-        
+
         this.splashTimer = setInterval(() => {
             this.stopSplashAnimation();
+            this.checkBottleCollisionWithChicken();
+            this.checkBottleCollisionWithBoss();
+            this.checkBottleCollisionWithLittleChicken()
         }, 1000 / 60);
-    }
-
-    bottleHit() {
-        if (!this.objectHit) {
-            this.bottleThrown = false;
-            this.objectHit = true;
-            console.log('Chicken dead');
-            setTimeout(() => {
-                this.objectHit = false;
-            }, 500);
-        }
     }
 
     removeBottle() {
@@ -78,14 +71,41 @@ class ThrowableObject extends MovableObject {
     stopSplashAnimation() {
         if (this.stopSplash) {
             this.stopSplash = false;
+            this.currentImage = 0;
             clearInterval(this.splashTimer);
             setTimeout(() => {
+                this.objectHit = false;
                 this.removeBottle();
             }, 500);
         }
     }
 
-    
-    
+    checkBottleCollisionWithChicken() {
+        this.world.level.chicken.forEach(chicken => {
+            if (this.isColliding(chicken) && !chicken.isDead) {
+                this.objectHit = true;
+                chicken.kickedOut();
+            }
+        })
+    }
+
+    checkBottleCollisionWithBoss() {
+        this.world.level.boss.forEach(boss => {
+            if (this.isColliding(boss) && !boss.mustWalk) {
+                this.objectHit = true;
+                boss.gotHit();
+            }
+        })
+    }
+
+    checkBottleCollisionWithLittleChicken() {
+        this.world.spawnedChicks.forEach(chick => {
+            if (this.isColliding(chick) && !chick.isDead) {
+                this.objectHit = true;
+                chick.kickedOut();
+            }
+        })
+    }
+
 }
 

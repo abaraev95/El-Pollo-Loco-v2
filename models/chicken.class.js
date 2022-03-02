@@ -5,6 +5,9 @@ class Chicken extends MovableObject {
     width = 100;
     world;
 
+    kickOutChickens = false;
+
+
     IMAGES_WALKING = [
         'img/Chicken/W-1.png',
         'img/Chicken/W-2.png',
@@ -13,12 +16,12 @@ class Chicken extends MovableObject {
 
     IMAGE_DEAD = ['img/Chicken/D-1.png']
 
-    constructor() {
+    constructor(x) {
         super();
         this.loadImage('img/Chicken/W-1.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGE_DEAD);
-        this.x = 600 + (Math.random() * 500);
+        this.x = x;
         this.mustWalk = true;
         this.animate();
         this.startMoving();
@@ -26,7 +29,10 @@ class Chicken extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if(this.mustWalk){
+            if(this.isDead){
+                this.playAnimation(this.IMAGE_DEAD);
+            }
+            else if(this.mustWalk){
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 120);
@@ -34,22 +40,28 @@ class Chicken extends MovableObject {
 
     startMoving() {
         setInterval(() => {
-            if(this.mustWalk){
-                this.moveObjects(1);    
+            if(this.isDead){
+                this.moveObjects(0);
+            }
+            else if(this.mustWalk){
+                this.moveObjects(1.5);    
             }
         }, 1000 / 60);
     }
 
     kickedOut() {
-        this.mustWalk = false;
-        this.applyGravity();
-        this.speedY = 18;
-        setInterval(() => {
-            this.x += 7;
-        }, 1000 / 60);
-        setTimeout(() => {
-            this.removeChicken()
-        }, 2000);
+        if(!this.kickOutChickens) {
+            this.kickOutChickens = true;
+            this.mustWalk = false;
+            this.applyGravity();
+            this.speedY = 18;
+            setInterval(() => {
+                this.x += 7;
+            }, 1000 / 60);
+            setTimeout(() => {
+                this.removeChicken()
+            }, 1500);
+        }
     }
 
     removeChicken(){

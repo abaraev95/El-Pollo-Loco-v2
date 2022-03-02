@@ -22,5 +22,10 @@ class CollectableObject extends DrawableObject {
         this.world.level.coins.splice(i, 1);
     }
 
+    removeHealth() {
+        let i = this.world.level.health.indexOf(this);
+        this.world.level.health.splice(i, 1);
+    }
+
 
 }

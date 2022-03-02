@@ -3,9 +3,12 @@ class World {
     character = new Character(this);
     keyboard = new Keyboard(this);
     healthbar = new Healthbar(this);
+    bossHealthbar = [];
+    spawnedChicks = [];
     bottleCounter = new Bottlecounter(this);
     coinCounter = new Coincounter(this);
     level;
+    bossFight_x = 1500;
     canvas;
     ctx;
     camera_x;
@@ -26,13 +29,17 @@ class World {
         this.drawArray(this.level.backgroundObjects);
         this.drawArray(this.level.bottles);
         this.drawArray(this.level.coins);
+        this.drawArray(this.level.health);
         this.ctx.translate(-this.camera_x, 0);
         this.healthbar.drawObject(this.ctx);
+        this.drawArray(this.bossHealthbar);
         this.bottleCounter.drawObject(this.ctx);
         this.drawNumber();
         this.coinCounter.drawObject(this.ctx);
         this.ctx.translate(this.camera_x, 0);
         this.drawArray(this.level.chicken);
+        this.drawArray(this.level.boss);
+        this.drawArray(this.spawnedChicks);
         this.drawArray(this.throwableObjects);
         this.drawCharacter();
         this.ctx.translate(-this.camera_x, 0);
@@ -66,17 +73,25 @@ class World {
     }
 
     setWorld(){
+        
+        this.level.boss.forEach((boss) => {
+            boss.world = this;
+        })
+
         this.level.chicken.forEach((chicken) => {
             chicken.world = this;
         })
+
         this.level.bottles.forEach((bottle) => {
             bottle.world = this;
         })
         this.level.coins.forEach((coin) => {
             coin.world = this;
         })
+
+        this.level.health.forEach((health) => {
+            health.world = this;
+        })
     }
-
-
 
 }

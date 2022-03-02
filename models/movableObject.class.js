@@ -11,9 +11,12 @@ class MovableObject extends DrawableObject {
     isDead = false;
     isHurt = false;
     bottleThrown = false;
+    spawnBoss = false;
+    collisionTimer;
+    gravityTimer;
 
     applyGravity() {
-        setInterval(() => {
+        this.gravityTimer = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
@@ -30,7 +33,7 @@ class MovableObject extends DrawableObject {
             return this.y < 390;
         }
 
-        if(this instanceof Chicken) {
+        if(this instanceof Chicken || this instanceof LittleChicken || this instanceof Endboss) {
             return this.y < 700;
         }
     }
@@ -50,44 +53,11 @@ class MovableObject extends DrawableObject {
         this.y < object.y + object.height;
     }
 
-    
-    checkCollisions() {
-        setInterval(() => {
-            this.collisionWithChicken();
-            this.collectBottles();
-            this.collectCoins();
-        }, 100);
-    }
-
-    collisionWithChicken() {
-        this.world.level.chicken.forEach((chicken) => {
-            if (this.isColliding(chicken)) {
-                if(this instanceof Character) {
-                    this.hit();
-                }
-                if(this instanceof ThrowableObject) {
-                    this.bottleHit();
-                    chicken.kickedOut();
-                }
-            }
-        })
+    jumpsOnTop(object) {
+        return this.y + this.height > object.y &&
+        this.y + this.height < object.y + object.height && 
+        this.x + this.width > object.x &&
+        this.x + this.width < (object.x + object.width + 70);
     }
     
-    collectBottles() {
-        this.world.level.bottles.forEach((bottle) => {
-            if(this.isColliding(bottle) && this instanceof Character) {
-                this.world.bottleCounter.counter++;
-                bottle.removeBottle();
-            }
-        })
-    }
-
-    collectCoins() {
-        this.world.level.coins.forEach((coin) => {
-            if(this.isColliding(coin) && this instanceof Character) {
-                this.world.coinCounter.counter++;
-                coin.removeCoin();                
-            }
-        })
-    }
 }

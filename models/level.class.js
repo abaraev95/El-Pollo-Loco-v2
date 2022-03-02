@@ -1,21 +1,19 @@
 class Level {
 
     chicken;
+    boss;
     backgroundObjects;
     bottles;
     coins;
-    /*
-    boss;
-    */
+    health;
 
-    constructor(chicken,/* boss,*/ backgroundObjects, bottles, coins) {
+
+    constructor(chicken, boss, backgroundObjects, bottles, coins, health) {
         this.chicken = chicken;
+        this.boss = boss;
         this.backgroundObjects = backgroundObjects;
         this.bottles = bottles;
         this.coins = coins;
-        /*
-        this.boss = boss;
-
-        */
+        this.health = health;        
     }
 }

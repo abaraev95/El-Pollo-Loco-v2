@@ -84,7 +84,7 @@ class Character extends MovableObject {
             if (this.isHurt) { this.playAnimation(this.IMAGES_HURTING) }
             else if (this.mustIdle) { this.playAnimation(this.IMAGES_IDLE) }
             else if (this.mustWalk) { this.playAnimation(this.IMAGES_WALKING) }
-            else if (this.mustJump) { this.playAnimation(this.IMAGES_JUMPING) } 
+            else if (this.mustJump) { this.playAnimation(this.IMAGES_JUMPING) }
         }, 150);
     }
 
@@ -93,13 +93,16 @@ class Character extends MovableObject {
             this.x = 153;
         }
 
-        if (this.x > 1000) {
-            this.x = 999;
-        }
 
-        if (this.x >= 153 && this.x < 1000) {
+        if (this.x >= 153 && this.x < this.world.bossFight_x) {
             this.moveCharacter(3);
         }
+
+        if (this.x >= this.world.bossFight_x) {
+            this.x = this.world.bossFight_x - 1;
+        }
+
+
     }
 
     jump() {
@@ -108,7 +111,7 @@ class Character extends MovableObject {
     }
 
     hit() {
-        if(!this.isHurt){
+        if (!this.isHurt) {
             this.isHurt = true;
             this.health -= 10;
             this.world.healthbar.setHealth();
@@ -120,7 +123,7 @@ class Character extends MovableObject {
     }
 
     throw() {
-        if(!this.bottleThrown && this.world.bottleCounter.counter > 0) {
+        if (!this.bottleThrown && this.world.bottleCounter.counter > 0) {
             this.bottleThrown = true;
             this.world.throwableObjects.push(new ThrowableObject(this.x + 100, this.y + 100, this.world));
             this.world.bottleCounter.counter--;
@@ -134,7 +137,79 @@ class Character extends MovableObject {
         this.world.camera_x = -this.x + 150;
     }
 
+    checkCollisions() {
+        this.collisionTimer = setInterval(() => {
+            this.collisionWithChicken();
+            this.collisionWithBoss();
+            this.collisionWithLittleChicken();
+            this.collectBottles();
+            this.collectCoins();
+            this.collectHealth();
+        }, 1000 / 60);
+    }
 
+    collisionWithChicken() {
+        this.world.level.chicken.forEach((chicken) => {
+            if (this.isColliding(chicken) && !chicken.isDead && !this.isAboveGround()) {
+                this.hit();
+            }
+
+            if (this.jumpsOnTop(chicken) && this.speedY < 0) {
+                chicken.isDead = true;
+            }
+        })
+
+    }
+
+    collisionWithBoss() {
+        this.world.level.boss.forEach((boss) => {
+            if (this.isColliding(boss) && !boss.isDead && !this.isAboveGround()) {
+                this.hit();
+            }
+        })
+    }
+
+    collisionWithLittleChicken() {
+        this.world.spawnedChicks.forEach((chick) => {
+            if (this.isColliding(chick) && !chick.isDead && !this.isAboveGround()) {
+                this.hit();
+            }
+
+            if (this.jumpsOnTop(chick) && this.speedY < 0) {
+                chick.isDead = true;
+            }
+        })
+    }
+
+    collectBottles() {
+        this.world.level.bottles.forEach((bottle) => {
+            if (this.isColliding(bottle)) {
+                this.world.bottleCounter.counter++;
+                bottle.removeBottle();
+            }
+        })
+    }
+
+    collectCoins() {
+        this.world.level.coins.forEach((coin) => {
+            if (this.isColliding(coin)) {
+                this.world.coinCounter.counter++;
+                coin.removeCoin();
+            }
+        })
+    }
+
+    collectHealth() {
+        this.world.level.health.forEach((health) => {
+            if (this.isColliding(health)) {
+                if (this.health <= 90) {
+                    this.health += 10;
+                    health.removeHealth();
+                    this.world.healthbar.setHealth();
+                }
+            }
+        })
+    }
 
 
 }

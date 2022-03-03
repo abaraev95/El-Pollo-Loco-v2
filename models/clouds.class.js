@@ -7,12 +7,20 @@ class Clouds extends MovableObject {
     constructor(path, x){
         super().loadImage(path);
         this.x = x;
-        this.animate();
+        //this.animate();
     }
 
     animate(){
-        setInterval(() => {
+        this.animationTimer = setInterval(() => {
             this.moveObjects(0.15);
         }, 1000 / 60)
+    }
+
+    startClouds() {
+        this.animate();
+    }
+
+    stopClouds() {
+        clearInterval(this.animationTimer);
     }
 }

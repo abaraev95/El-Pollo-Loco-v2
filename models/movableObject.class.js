@@ -14,6 +14,8 @@ class MovableObject extends DrawableObject {
     spawnBoss = false;
     collisionTimer;
     gravityTimer;
+    animationTimer;
+    movementTimer;
 
     applyGravity() {
         this.gravityTimer = setInterval(() => {

@@ -23,12 +23,13 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGE_DEAD);
         this.x = x;
         this.mustWalk = true;
+        /*
         this.animate();
-        this.startMoving();
+        this.startMoving();*/
     }
 
     animate() {
-        setInterval(() => {
+        this.animationTimer = setInterval(() => {
             if(this.isDead){
                 this.playAnimation(this.IMAGE_DEAD);
             }
@@ -39,7 +40,7 @@ class Chicken extends MovableObject {
     }
 
     startMoving() {
-        setInterval(() => {
+        this.movementTimer = setInterval(() => {
             if(this.isDead){
                 this.moveObjects(0);
             }
@@ -69,5 +70,13 @@ class Chicken extends MovableObject {
         this.world.level.chicken.splice(i, 1);
     }
 
+    startChicken() {
+        this.animate();
+        this.startMoving();
+    }
 
+    stopChicken() {
+        clearInterval(this.animationTimer);
+        clearInterval(this.movementTimer);
+    }
 }

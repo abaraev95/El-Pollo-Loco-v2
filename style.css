@@ -5,3 +5,32 @@ body {
     align-items: center;
     height: 100vh;
 }
+
+.start {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    height: 40px;
+    width: 100px;
+    background-color: yellow;
+    z-index: 999;
+}
+.stop {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    height: 40px;
+    width: 100px;
+    background-color: yellow;
+    z-index: 999;
+}
+
+.resume {
+    position: absolute;
+    top: 100px;
+    left: 200px;
+    height: 40px;
+    width: 100px;
+    background-color: yellow;
+    z-index: 999;
+}

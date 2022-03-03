@@ -33,6 +33,8 @@ const level1 = new Level(
         new BackgroundObject('img/Background-Objects/Desert-1/2.png', 960),
         new BackgroundObject('img/Background-Objects/Desert-1/1.png', 1920),
         new BackgroundObject('img/Background-Objects/Desert-1/2.png', 2880),
+    ],
+    [
         new Clouds('img/Background-Objects/Clouds/1.png', 0),
         new Clouds('img/Background-Objects/Clouds/2.png', 960),
         new Clouds('img/Background-Objects/Clouds/1.png', 1920),

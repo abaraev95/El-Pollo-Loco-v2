@@ -6,8 +6,7 @@ class Endboss extends MovableObject {
     mustAttack = false;
 
     world;
-    positioningTimer;
-    bossAnimationTimer;
+    bossIsFinished = false;
 
     IMAGES_WALKING = [
         'img/Boss/walk/G1.png', 'img/Boss/walk/G2.png', 'img/Boss/walk/G3.png', 'img/Boss/walk/G4.png',
@@ -38,22 +37,21 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.mustWalk = true;
+        /*
         this.animate();
-        this.checkCharacterPosition();
         this.walkingInPosition();
+        this.checkCharacterPosition();*/
     }
 
     animate() {
-        this.bossAnimationTimer = setInterval(() => {
+        this.animationTimer = setInterval(() => {
             if (this.isDead) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.gotKilled();
-                this.removeBoss();
             }
             else if (this.isHurt) { this.playAnimation(this.IMAGES_HURT) }
             else if (this.mustWalk) { this.playAnimation(this.IMAGES_WALKING) }
             else if (this.mustAttack) {
-                //this.currentImage = 0;
                 this.playAnimation(this.IMAGES_ATTACKING);
                 this.spawnChicks();
             }
@@ -67,13 +65,12 @@ class Endboss extends MovableObject {
                     this.spawnBoss = true;
                 }
             }
-
         }, 100);
     }
 
     walkingInPosition() {
 
-        this.positioningTimer = setInterval(() => {
+        this.movementTimer = setInterval(() => {
             if (this.spawnBoss) {
                 if (this.x > this.world.bossFight_x + 500) {
                     this.moveObjects(1);
@@ -88,7 +85,7 @@ class Endboss extends MovableObject {
                         this.world.bossFight_x = 3400;
                     }
                     this.world.bossHealthbar.push(new BossHealthbar(this.world));
-                    clearInterval(this.positioningTimer);
+                    clearInterval(this.movementTimer);
                 }
             }
         }, 1000 / 60);
@@ -123,14 +120,18 @@ class Endboss extends MovableObject {
     }
 
     gotKilled() {
-        setTimeout(() => {
-            this.speedY = 6;
-            this.applyGravity();
-        }, 1000);
+        if(!this.bossIsFinished){
+            this.bossIsFinished = true;
+            setTimeout(() => {
+                clearInterval(this.animationTimer);
+                this.speedY = 6;
+                this.applyGravity();
+                this.removeBoss();
+            }, 1000);
+        } 
     }
 
     removeBoss() {
-        clearInterval(this.bossAnimationTimer);
         setTimeout(() => {
             this.world.bossHealthbar.splice(0, 1);
             let index = this.world.level.boss.indexOf(this);
@@ -138,6 +139,16 @@ class Endboss extends MovableObject {
                 this.world.level.boss.push(new Endboss(3500, this.world));
             }
         }, 2000)
+    }
 
+    startBoss() {
+        this.animate();
+        this.walkingInPosition();
+        this.checkCharacterPosition();
+    }
+
+    stopBoss(){
+        clearInterval(this.animationTimer);
+        clearInterval(this.movementTimer);
     }
 }

@@ -8,7 +8,6 @@ class Character extends MovableObject {
 
     health = 100;
 
-
     IMAGES_IDLE = [
         'img/Pepe/idle/I-1.png', 'img/Pepe/idle/I-2.png', 'img/Pepe/idle/I-3.png', 'img/Pepe/idle/I-4.png',
         'img/Pepe/idle/I-5.png', 'img/Pepe/idle/I-6.png', 'img/Pepe/idle/I-7.png', 'img/Pepe/idle/I-8.png',
@@ -43,14 +42,15 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
+        /*
         this.applyGravity();
-        this.characterControl();
         this.characterAnimation();
         this.checkCollisions();
+        this.characterControl();*/
     }
 
     characterControl() {
-        setInterval(() => {
+        this.movementTimer = setInterval(() => {
             if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.up) {
                 this.mustIdle = true;
                 this.mustWalk = false;
@@ -86,7 +86,7 @@ class Character extends MovableObject {
     }
 
     characterAnimation() {
-        setInterval(() => {
+        this.animationTimer = setInterval(() => {
             if (this.isDead) { this.playAnimation(this.IMAGES_DEAD) }
             else if (this.isHurt) { this.playAnimation(this.IMAGES_HURTING) }
             else if (this.mustIdle) { this.playAnimation(this.IMAGES_IDLE) }
@@ -136,7 +136,7 @@ class Character extends MovableObject {
     throw() {
         if (!this.bottleThrown && this.world.bottleCounter.counter > 0) {
             this.bottleThrown = true;
-            this.world.throwableObjects.push(new ThrowableObject(this.x + 100, this.y + 100, this.world));
+            this.world.throwableObjects.push(new ThrowableObject(this.x + 100, this.y + 100, this.world, this.direction));
             this.world.bottleCounter.counter--;
             setTimeout(() => {
                 this.bottleThrown = false;
@@ -222,5 +222,19 @@ class Character extends MovableObject {
         })
     }
 
+
+    startCharacter() {
+        this.applyGravity();
+        this.characterControl();
+        this.characterAnimation();
+        this.checkCollisions();
+    }
+
+    stopCharacter() {
+        clearInterval(this.gravityTimer);
+        clearInterval(this.animationTimer);
+        clearInterval(this.collisionTimer);
+        clearInterval(this.movementTimer);
+    }
 
 }

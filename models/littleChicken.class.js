@@ -26,14 +26,14 @@ class LittleChicken extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.animationTimer = setInterval(() => {
             if(this.isDead) { this.playAnimation(this.IMAGE_DEAD) }
             else if(this.mustWalk) { this.playAnimation(this.IMAGES_WALKING) };
         }, 150);
     }
 
     movements() {
-        setInterval(() => {
+        this.movementTimer = setInterval(() => {
             if(this.isDead) { this.moveObjects(0)}
             else if(this.mustWalk) { this.moveObjects(2)};
         }, 1000 / 60);
@@ -57,5 +57,15 @@ class LittleChicken extends MovableObject {
     removeChick(){
         let i = this.world.spawnedChicks.indexOf(this);
         this.world.spawnedChicks.splice(i, 1);
+    }
+
+    startLittleChicks() {
+        this.animate();
+        this.movements();
+    }
+
+    stopLittleChicks() {
+        clearInterval(this.animationTimer);
+        clearInterval(this.movementTimer);
     }
 }

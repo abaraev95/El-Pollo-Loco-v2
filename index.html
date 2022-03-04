@@ -40,11 +40,49 @@
 
 <body onload="init()">
 
-    <canvas id="canvas" width="960" height="540"></canvas>
-    <button class="start" onclick="startGame()">Start Game</button>
-    <button class="stop" onclick="world.stopGame()">Stop Game</button>
-    <button class="resume" onclick="world.startGame()">Resume Game</button>
+    <div class="game-container">
+        <div class="button-bar">
+            <button id="startButton" class="gameButton" onclick="startGame()">Start</button>
+            <button id="stopButton" class="gameButton d-none" onclick="world.stopGame()">Stop</button>
+            <button id="resumeButton" class="gameButton d-none" onclick="world.resumeGame()">Resume</button>
+            <div id="win-text" class="result-text d-none">CONGRATULATIONS</div>
+            <div id="lose-text" class="result-text d-none">GAME OVER</div>
+        </div>
 
+        <img id="startScreen" src="img/Screens/Start-Screen-2.png">
+
+        <canvas id="canvas" width="960" height="540"></canvas>
+
+        <img id="gameWon" class="gameResult" src="img/Screens/win.png">
+        <img id="gameOver" class="gameResult" src="img/Screens/2.oh no you lost!.png">
+        <button id="restartButton" class="restart" onclick="world.restartGame()">RESTART GAME</button>
+
+        <button id="controls" onclick="showControlDescription()">Controls</button>
+
+        <button id="sound" onclick="regulateSound()">
+            <img id="soundOn" src="img/Screens/lautstarke.png">
+            <img id="soundOff" class="d-none" src="img/Screens/stumm.png">
+        </button>
+
+        <div id="control-description" class="control-description show-description">
+            <img src="img/Screens/key-left.png"><span>Move Left</span>
+            <img src="img/Screens/key-up.png"><span>Jump</span>
+            <img src="img/Screens/key-right.png"><span>Move Right</span>
+            <div class="space-button">SPACE<img src="img/Screens/space.png"></div><span>Throw Bottle</span>
+            <img src="img/Screens/return.png"><span>Pause</span>
+
+        </div>
+
+    </div>
+
+    </div class="icon-credits">
+        <a href="https://www.flaticon.com/free-icons/winner" title="winner icons">Winner icons created by Freepik -
+        Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/keyboard" title="keyboard icons">Keyboard icons created by Freepik - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/space" title="space icons">Space icons created by Pixelmeetup - Flaticon</a>
+        <a href="https://www.flaticon.com/de/kostenlose-icons/laut" title="laut Icons">Laut Icons erstellt von Freepik - Flaticon</a>
+        <a href="https://www.flaticon.com/de/kostenlose-icons/ui" title="ui Icons">Ui Icons erstellt von DenIcon - Flaticon</a>
+    <div>
 
 </body>
 

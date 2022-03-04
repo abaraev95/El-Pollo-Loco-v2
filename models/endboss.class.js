@@ -137,6 +137,13 @@ class Endboss extends MovableObject {
             let index = this.world.level.boss.indexOf(this);
             if (index == 0) {
                 this.world.level.boss.push(new Endboss(3500, this.world));
+                this.world.level.boss[1].startBoss();
+            } else if (index == 1) {
+                this.world.stopGame();
+                document.getElementById('gameWon').classList.add('showResult');
+                document.getElementById('restartButton').classList.add('showResult');
+                document.getElementById('resumeButton').classList.add('d-none');
+                document.getElementById('win-text').classList.remove('d-none');
             }
         }, 2000)
     }

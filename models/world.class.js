@@ -13,7 +13,7 @@ class World {
     ctx;
     camera_x;
     throwableObjects = [];
-    gameStopped = false;
+    //gameStopped = false;
 
 
     constructor(canvas, level1) {
@@ -24,8 +24,10 @@ class World {
         //this.setWorld();
     }
 
-    startGame() {
-        this.gameStopped = false;
+    resumeGame() {
+        //this.gameStopped = false;
+        document.getElementById('stopButton').classList.remove('d-none');
+        document.getElementById('resumeButton').classList.add('d-none');
         this.drawWorld();
         this.setWorld();
         this.startCharacter();
@@ -37,7 +39,9 @@ class World {
     }
 
     stopGame() {
-        this.gameStopped = true;
+        //this.gameStopped = true;
+        document.getElementById('stopButton').classList.add('d-none');
+        document.getElementById('resumeButton').classList.remove('d-none');
         this.stopCharacter();
         this.stopChicken();
         this.stopLittleChicken();
@@ -45,6 +49,11 @@ class World {
         this.stopClouds();
         this.stopBottle();
     }
+
+    restartGame() {
+        location.reload();
+    }
+
 
     startCharacter() {
         this.character.startCharacter();
@@ -115,29 +124,27 @@ class World {
     }
 
     drawWorld() {
-        if (!this.gameStopped) {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.translate(this.camera_x, 0);
-            this.drawArray(this.level.backgroundObjects);
-            this.drawArray(this.level.clouds);
-            this.drawArray(this.level.bottles);
-            this.drawArray(this.level.coins);
-            this.drawArray(this.level.health);
-            this.ctx.translate(-this.camera_x, 0);
-            this.healthbar.drawObject(this.ctx);
-            this.drawArray(this.bossHealthbar);
-            this.bottleCounter.drawObject(this.ctx);
-            this.drawNumber();
-            this.coinCounter.drawObject(this.ctx);
-            this.ctx.translate(this.camera_x, 0);
-            this.drawArray(this.level.chicken);
-            this.drawArray(this.level.boss);
-            this.drawArray(this.spawnedChicks);
-            this.drawBottles();
-            this.drawCharacter();
-            this.ctx.translate(-this.camera_x, 0);
-            requestAnimationFrame(this.drawWorld.bind(this));
-        }
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
+        this.drawArray(this.level.backgroundObjects);
+        this.drawArray(this.level.clouds);
+        this.drawArray(this.level.bottles);
+        this.drawArray(this.level.coins);
+        this.drawArray(this.level.health);
+        this.ctx.translate(-this.camera_x, 0);
+        this.healthbar.drawObject(this.ctx);
+        this.drawArray(this.bossHealthbar);
+        this.bottleCounter.drawObject(this.ctx);
+        this.drawNumber();
+        this.coinCounter.drawObject(this.ctx);
+        this.ctx.translate(this.camera_x, 0);
+        this.drawArray(this.level.chicken);
+        this.drawArray(this.level.boss);
+        this.drawArray(this.spawnedChicks);
+        this.drawBottles();
+        this.drawCharacter();
+        this.ctx.translate(-this.camera_x, 0);
+        requestAnimationFrame(this.drawWorld.bind(this));
     }
 
     drawArray(levelArray) {

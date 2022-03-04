@@ -29,7 +29,7 @@ class Character extends MovableObject {
     IMAGES_HURTING = ['img/Pepe/hurt/H-41.png', 'img/Pepe/hurt/H-42.png', 'img/Pepe/hurt/H-43.png']
 
     IMAGES_DEAD = [
-        'img/Pepe/dead/D-51.png', 'img/Pepe/dead/D-52.png', 'img/Pepe/dead/D-53.png', 'img/Pepe/dead/D-54.png', 
+        'img/Pepe/dead/D-51.png', 'img/Pepe/dead/D-52.png', 'img/Pepe/dead/D-53.png', 'img/Pepe/dead/D-54.png',
         'img/Pepe/dead/D-55.png', 'img/Pepe/dead/D-56.png', 'img/Pepe/dead/D-57.png',
     ]
 
@@ -87,12 +87,26 @@ class Character extends MovableObject {
 
     characterAnimation() {
         this.animationTimer = setInterval(() => {
-            if (this.isDead) { this.playAnimation(this.IMAGES_DEAD) }
+            if (this.isDead) {
+                this.playAnimation(this.IMAGES_DEAD)
+                this.gameOver();
+            }
             else if (this.isHurt) { this.playAnimation(this.IMAGES_HURTING) }
             else if (this.mustIdle) { this.playAnimation(this.IMAGES_IDLE) }
             else if (this.mustWalk) { this.playAnimation(this.IMAGES_WALKING) }
             else if (this.mustJump) { this.playAnimation(this.IMAGES_JUMPING) }
         }, 150);
+    }
+
+    gameOver() {
+        setTimeout(() => {
+            clearInterval(this.animationTimer);
+            this.world.stopGame();
+            document.getElementById('gameOver').classList.add('showResult');
+            document.getElementById('restartButton').classList.add('showResult');
+            document.getElementById('resumeButton').classList.add('d-none');
+            document.getElementById('lose-text').classList.remove('d-none');
+        }, 1000);
     }
 
     walk() {

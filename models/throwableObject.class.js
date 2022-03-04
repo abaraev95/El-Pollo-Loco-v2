@@ -31,13 +31,13 @@ class ThrowableObject extends MovableObject {
         this.x = x;
         this.y = y;
         this.currentImage = 1;
+        this.speedY = 13;
         this.applyGravity();
         this.flyingBottle();
         this.bottleAnimation();
     }
 
     flyingBottle() {
-        this.speedY = 13;
         this.movementTimer = setInterval(() => {
             this.x += 11 * this.direction;
             if (this.objectHit || !this.isAboveGround()) {

@@ -37,10 +37,6 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.mustWalk = true;
-        /*
-        this.animate();
-        this.walkingInPosition();
-        this.checkCharacterPosition();*/
     }
 
     animate() {
@@ -82,9 +78,12 @@ class Endboss extends MovableObject {
                     if (index == 0) {
                         this.world.bossFight_x = 2700;
                     } else if (index == 1) {
-                        this.world.bossFight_x = 3400;
+                        this.world.bossFight_x = 3000;
                     }
-                    this.world.bossHealthbar.push(new BossHealthbar(this.world));
+                    if (!this.world.bossHealthbar[0]) {
+                        this.world.bossHealthbar.push(new BossHealthbar(this.world));
+                    }
+
                     clearInterval(this.movementTimer);
                 }
             }
@@ -95,7 +94,7 @@ class Endboss extends MovableObject {
         if (!this.isHurt) {
             this.isHurt = true;
             this.mustAttack = false;
-            this.world.bossHealthbar[0].health -= 25;
+            this.world.bossHealthbar[0].health -= 20;
             this.world.bossHealthbar[0].setEnemyHealth();
             if (this.world.bossHealthbar[0].health == 0) {
                 this.isDead = true;
@@ -120,7 +119,7 @@ class Endboss extends MovableObject {
     }
 
     gotKilled() {
-        if(!this.bossIsFinished){
+        if (!this.bossIsFinished) {
             this.bossIsFinished = true;
             setTimeout(() => {
                 clearInterval(this.animationTimer);
@@ -128,7 +127,7 @@ class Endboss extends MovableObject {
                 this.applyGravity();
                 this.removeBoss();
             }, 1000);
-        } 
+        }
     }
 
     removeBoss() {
@@ -136,7 +135,7 @@ class Endboss extends MovableObject {
             this.world.bossHealthbar.splice(0, 1);
             let index = this.world.level.boss.indexOf(this);
             if (index == 0) {
-                this.world.level.boss.push(new Endboss(3500, this.world));
+                this.world.level.boss.push(new Endboss(3400, this.world));
                 this.world.level.boss[1].startBoss();
             } else if (index == 1) {
                 this.world.stopGame();
@@ -154,7 +153,7 @@ class Endboss extends MovableObject {
         this.checkCharacterPosition();
     }
 
-    stopBoss(){
+    stopBoss() {
         clearInterval(this.animationTimer);
         clearInterval(this.movementTimer);
     }

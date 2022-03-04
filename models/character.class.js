@@ -32,6 +32,7 @@ class Character extends MovableObject {
         'img/Pepe/dead/D-51.png', 'img/Pepe/dead/D-52.png', 'img/Pepe/dead/D-53.png', 'img/Pepe/dead/D-54.png',
         'img/Pepe/dead/D-55.png', 'img/Pepe/dead/D-56.png', 'img/Pepe/dead/D-57.png',
     ]
+    
 
     constructor(world) {
         super();
@@ -51,6 +52,7 @@ class Character extends MovableObject {
 
     characterControl() {
         this.movementTimer = setInterval(() => {
+
             if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.up) {
                 this.mustIdle = true;
                 this.mustWalk = false;
@@ -134,7 +136,7 @@ class Character extends MovableObject {
     hit() {
         if (!this.isHurt) {
             this.isHurt = true;
-            this.health -= 10;
+            this.health -= 20;
             this.world.healthbar.setHealth();
             console.log('lost Health:' + this.health);
             if (this.health == 0) {

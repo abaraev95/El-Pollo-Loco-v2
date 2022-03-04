@@ -11,6 +11,7 @@ body {
 
 button {
     font-family: 'Rye', cursive;
+    background-color: #ffdd03;
 }
 
 .game-container {
@@ -32,7 +33,6 @@ button {
 .button-bar {
     height: 50px;
     width: 960px;
-    background-color: blue;
     display: flex;
     flex-direction: row;
 }
@@ -40,15 +40,17 @@ button {
 .gameButton {
     height: 50px;
     width: 960px;
+    font-size: 20px;
 }
 
 .result-text {
     height: 50px;
     width: 960px;
-    background-color: yellow;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 25px;
+    background-color: #ffdd03;
 }
 
 .d-none {
@@ -92,11 +94,12 @@ button {
     left: calc(50% - 150px);
     height: 50px;
     width: 300px;
-    background-color: yellow;
     transform: scale(0.1);
     opacity: 0;
     z-index: -999;
     transition: all 500ms ease-in-out;
+    font-size: 25px;
+
 }
 
 .showResult {

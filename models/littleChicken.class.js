@@ -35,7 +35,7 @@ class LittleChicken extends MovableObject {
     movements() {
         this.movementTimer = setInterval(() => {
             if(this.isDead) { this.moveObjects(0)}
-            else if(this.mustWalk) { this.moveObjects(2)};
+            else if(this.mustWalk) { this.moveObjects(7)};
         }, 1000 / 60);
     }
 
